@@ -1,0 +1,32 @@
+{
+  "name": "weather",
+  "type": "module",
+  "lint-staged": {
+    "*.{js,mjs,cjs,ts,mts,cts}": [
+      "eslint",
+      "prettier --write --ignore-unknown"
+    ],
+    "!(*.{js,mjs,cjs,ts,mts,cts})": "prettier --write --ignore-unknown"
+  },
+  "scripts": {
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy --minify",
+    "cf-typegen": "wrangler types --env-interface CloudflareBindings",
+    "prepare": "husky"
+  },
+  "dependencies": {
+    "hono": "^4.11.3"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.39.2",
+    "eslint": "^9.39.2",
+    "eslint-config-prettier": "^10.1.8",
+    "globals": "^17.0.0",
+    "husky": "^9.1.7",
+    "jiti": "^2.6.1",
+    "lint-staged": "^16.2.7",
+    "prettier": "^3.7.4",
+    "typescript-eslint": "^8.52.0",
+    "wrangler": "^4.4.0"
+  }
+}
