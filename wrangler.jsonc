@@ -24,4 +24,12 @@
   "compatibility_date": "2025-11-17",
   "name": "weather",
   "main": "src/index.ts",
+  "r2_buckets": [{ "binding": "OPEN_BUCKET", "bucket_name": "object" }],
+  "secrets_store_secrets": [
+    {
+      "binding": "OPENWEATHERMAP_APIKEY",
+      "store_id": "c5b03c1fc22547d0bb1ee70629d4b6dd",
+      "secret_name": "openweathermap",
+    },
+  ],
 }
