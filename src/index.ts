@@ -15,18 +15,21 @@ const scheduled = async (
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   ctx: ExecutionContext,
 ) => {
-  console.log(
-    "Cron Event Triggered at:",
-    new Date(event.scheduledTime).toISOString(),
-  );
+  const scheduledAt = new Date(event.scheduledTime).toISOString();
+  console.log("Cron Event Triggered at:", scheduledAt);
 
   // Step 1: Define location with latitude and longitude
   const lat = "41.8583";
   const lon = "127.8558";
-  const apiKey = await env.OPENWEATHERMAP_APIKEY.get();
 
   try {
-    // Step 2: Fetch current weather data from OpenWeatherMap API
+    // Step 2: Fetch apikey from cloudflare secret store
+    const apiKey = await env.OPENWEATHERMAP_APIKEY.get();
+    if (!apiKey) {
+      throw new Error("API key not found in Secrets Store");
+    }
+
+    // Step 3: Fetch current weather data from OpenWeatherMap API
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=ja`;
 
     const response = await fetch(apiUrl);
@@ -37,7 +40,7 @@ const scheduled = async (
     const weatherData = await response.json();
     const weatherString = JSON.stringify(weatherData, null, 2);
 
-    // Step 3: Save pretty weather data to r2 bucket
+    // Step 4: Save pretty weather data to r2 bucket
     await env.OPEN_BUCKET.put("weather", weatherString, {
       httpMetadata: {
         contentType: "application/json",
