@@ -16,6 +16,7 @@ const scheduled = async (
   ctx: ExecutionContext,
 ) => {
   const scheduledAt = new Date(event.scheduledTime).toISOString();
+
   console.log("Cron Event Triggered at:", scheduledAt);
 
   // Step 1: Define location with latitude and longitude
@@ -25,14 +26,15 @@ const scheduled = async (
   try {
     // Step 2: Fetch apikey from cloudflare secret store
     const apiKey = await env.OPENWEATHERMAP_APIKEY.get();
+
     if (!apiKey) {
       throw new Error("API key not found in Secrets Store");
     }
 
     // Step 3: Fetch current weather data from OpenWeatherMap API
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}&units=metric&lang=ja`;
-
     const response = await fetch(apiUrl);
+
     if (!response.ok) {
       throw new Error(`OpenWeatherMap API Error: ${response.statusText}`);
     }
@@ -46,6 +48,7 @@ const scheduled = async (
         contentType: "application/json",
       },
     });
+
     console.log("Event Succeeded.");
   } catch (error) {
     console.error("Event Failed:", error);
