@@ -16,7 +16,7 @@ const scheduled = async (
   ctx: ExecutionContext,
 ) => {
   console.log(
-    "Cron Event Triggered at: ",
+    "Cron Event Triggered at:",
     new Date(event.scheduledTime).toISOString(),
   );
 
@@ -45,7 +45,7 @@ const scheduled = async (
     });
     console.log("Event Succeeded.");
   } catch (error) {
-    console.error("Event Failed: ", error);
+    console.error("Event Failed:", error);
   }
 };
 
