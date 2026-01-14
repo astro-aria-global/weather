@@ -51,7 +51,10 @@ const scheduled = async (
 
     console.log("Event Succeeded.");
   } catch (error) {
-    console.error("Event Failed:", error);
+    console.error(
+      "Event Failed:",
+      error instanceof Error ? error.name : "UnknownError",
+    );
   }
 };
 
